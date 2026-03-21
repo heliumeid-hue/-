@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منيو فطائر الخالدية للمعجنات</title>
+    <style>
+        :root { --bg-color: #F7F7F7; --primary-orange: #C84C21; --primary-green: #144A42; --text-dark: #333333; --whatsapp-color: #25D366; --card-bg: #FFFFFF; --border-color: #EFEFEF; }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-dark); margin: 0; padding: 0; padding-bottom: 110px; }
+        .header { text-align: center; padding: 25px 20px; background-color: var(--card-bg); border-bottom: 3px solid var(--primary-orange); box-shadow: 0 2px 5px rgba(0,0,0,0.03); margin-bottom: 20px; position: sticky; top: 0; z-index: 10; }
+        .header h1 { color: var(--primary-orange); font-size: 26px; margin: 0 0 10px 0; }
+        .header p { color: var(--primary-green); font-size: 14px; margin: 0; font-weight: bold; line-height: 1.6; }
+        .highlight { color: var(--primary-orange); background: #fff5f2; padding: 4px 12px; border-radius: 8px; display: inline-block; margin-top: 10px; font-size: 14px; border: 1px solid #ffe0d6; }
+        .menu-container { max-width: 650px; margin: 0 auto; padding: 0 15px; }
+        .category-section { margin-bottom: 35px; }
+        .category-title { font-size: 22px; color: var(--primary-green); border-bottom: 2px solid var(--primary-orange); padding-bottom: 10px; margin-bottom: 15px; display: inline-block; }
+        .item-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .item-image { width: 85px; height: 85px; border-radius: 10px; object-fit: cover; margin-left: 15px; background-color: #f0f0f0; }
+        .item-details { flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; height: 85px; }
+        .item-main-info { display: flex; justify-content: space-between; align-items: flex-start; }
+        .item-name { font-size: 17px; font-weight: bold; color: var(--text-dark); margin: 0; flex-grow: 1; padding-left: 10px; }
+        .item-price { font-size: 16px; color: var(--primary-orange); font-weight: bold; white-space: nowrap; }
+        .qty-controls { display: flex; align-items: center; background-color: #F9F9F9; border: 1px solid #EAEAEA; border-radius: 8px; overflow: hidden; width: fit-content; align-self: flex-end; }
+        .qty-btn { border: none; width: 34px; height: 34px; font-size: 22px; font-weight: bold; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; }
+        .btn-minus { background-color: var(--primary-green); }
+        .btn-plus { background-color: var(--primary-orange); }
+        .qty-input { width: 36px; text-align: center; border: none; background: transparent; font-size: 16px; font-weight: bold; color: var(--text-dark); pointer-events: none; }
+        .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); box-shadow: 0 -4px 15px rgba(0,0,0,0.06); padding: 18px 25px; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; z-index: 100; border-top: 1px solid var(--border-color); }
+        .total-box { display: flex; flex-direction: column; }
+        .total-label { font-size: 13px; color: var(--text-dark); font-weight: bold; }
+        .total-amount { font-size: 24px; font-weight: bold; color: var(--primary-orange); }
+        .send-btn { background-color: var(--whatsapp-color); color: white; border: none; padding: 15px 30px; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); transition: transform 0.2s; }
+        .send-btn:active { transform: scale(0.98); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>فطائر الخالدية للمعجنات</h1>
+        <p>ألذ معجنات ✨ يمكنك الطلب من خلال الموقع للاستلام من الفرع أوزيارتنا في فرعنا </p>
+        <div class="highlight">ما يحتاج تتصل وتنتظر.. اطلب الآن من الموقع ويكون طلبك جاهز للاستلام! 🚗</div>
+    </div>
+    
+    <div class="menu-container">
+        <div class="category-section">
+            <h2 class="category-title">شكشوكة</h2>
+            <div class="item-card" data-name="شكشوكة - عادي" data-price="4">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/9bd70d61e15e20b2217452461d4bff25.jpg?width=1920" alt="شكشوكة - عادي" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">شكشوكة - عادي</h3><div class="item-price">4 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="شكشوكة - بالجبن" data-price="5">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/9bd70d61e15e20b2217452461d4bff25.jpg?width=1920" alt="شكشوكة - بالجبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">شكشوكة - بالجبن</h3><div class="item-price">5 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">حلو</h2>
+            <div class="item-card" data-name="نوتيلا" data-price="5">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/e9748c9b28ed0fc85d4856dfdd718e87.jpg?width=222" alt="نوتيلا" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">نوتيلا</h3><div class="item-price">5 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="حلاوة - عادي" data-price="4">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/0066ffaa721ffb2e307d28a846269077.jpg?width=1920" alt="حلاوة - عادي" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">حلاوة - عادي</h3><div class="item-price">4 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="حلاوة - بالجبن" data-price="5">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/0066ffaa721ffb2e307d28a846269077.jpg?width=1920" alt="حلاوة - بالجبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">حلاوة - بالجبن</h3><div class="item-price">5 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="قشطة - عادي" data-price="5">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/80539d91fe7a8e84692025ea82aeced4.jpeg?width=1920" alt="قشطة - عادي" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">قشطة - عادي</h3><div class="item-price">5 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="قشطة - بالعسل" data-price="5">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/80539d91fe7a8e84692025ea82aeced4.jpeg?width=1920" alt="قشطة - بالعسل" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">قشطة - بالعسل</h3><div class="item-price">5 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="عش البلبل - صغير" data-price="10">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/0066ffaa721ffb2e307d28a846269077.jpg?width=1920" alt="عش البلبل - صغير" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">عش البلبل - صغير</h3><div class="item-price">10 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="عش البلبل - وسط" data-price="16">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/0066ffaa721ffb2e307d28a846269077.jpg?width=1920" alt="عش البلبل - وسط" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">عش البلبل - وسط</h3><div class="item-price">16 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="عش البلبل - كبير" data-price="21">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/0066ffaa721ffb2e307d28a846269077.jpg?width=1920" alt="عش البلبل - كبير" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">عش البلبل - كبير</h3><div class="item-price">21 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="عش البلبل - عائلي" data-price="29">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/0066ffaa721ffb2e307d28a846269077.jpg?width=1920" alt="عش البلبل - عائلي" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">عش البلبل - عائلي</h3><div class="item-price">29 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">لبنة</h2>
+            <div class="item-card" data-name="لبنه مشكل" data-price="9">
+                <img src="https://images.deliveryhero.io/image/global-menu-service/HS_SA/vendor/132936/PRODUCT/55576214/8df7f060-b18b-4de4-9870-e40720c5c71a.jpg?width=222" alt="لبنه مشكل" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">لبنه مشكل</h3><div class="item-price">9 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="لبنه جبن زيتون" data-price="8">
+                <img src="https://images.deliveryhero.io/image/global-menu-service/HS_SA/vendor/132936/PRODUCT/55576215/4dc50055-9654-4d61-b66c-337a25efe33c.jpg?width=222" alt="لبنه جبن زيتون" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">لبنه جبن زيتون</h3><div class="item-price">8 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="لبنه فلافل" data-price="7">
+                <img src="https://images.deliveryhero.io/image/global-menu-service/HS_SA/vendor/132936/PRODUCT/55576216/af657482-5c38-4c67-acc3-7c6d0484b5d4.jpg?width=222" alt="لبنه فلافل" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">لبنه فلافل</h3><div class="item-price">7 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="لبنة - عادي" data-price="5">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/468d11633f3d948071dfffc23b9a32e0.jpg?width=1920" alt="لبنة - عادي" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">لبنة - عادي</h3><div class="item-price">5 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="لبنة - بالعسل" data-price="7">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/468d11633f3d948071dfffc23b9a32e0.jpg?width=1920" alt="لبنة - بالعسل" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">لبنة - بالعسل</h3><div class="item-price">7 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="لبنة - بالزعتر" data-price="7">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/468d11633f3d948071dfffc23b9a32e0.jpg?width=1920" alt="لبنة - بالزعتر" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">لبنة - بالزعتر</h3><div class="item-price">7 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="لبنة - بالزيتون" data-price="7">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/468d11633f3d948071dfffc23b9a32e0.jpg?width=1920" alt="لبنة - بالزيتون" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">لبنة - بالزيتون</h3><div class="item-price">7 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="لبنة - بالجبن" data-price="7">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/468d11633f3d948071dfffc23b9a32e0.jpg?width=1920" alt="لبنة - بالجبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">لبنة - بالجبن</h3><div class="item-price">7 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="لبنة - بالبيض" data-price="7">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/468d11633f3d948071dfffc23b9a32e0.jpg?width=1920" alt="لبنة - بالبيض" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">لبنة - بالبيض</h3><div class="item-price">7 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">السبانخ</h2>
+            <div class="item-card" data-name="سبانخ - عادي" data-price="3">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/a3d5a0766e6c8e2077f7fa37134115b0.jpg?width=1920" alt="سبانخ - عادي" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">سبانخ - عادي</h3><div class="item-price">3 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="سبانخ - بالجبن" data-price="5">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/a3d5a0766e6c8e2077f7fa37134115b0.jpg?width=1920" alt="سبانخ - بالجبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">سبانخ - بالجبن</h3><div class="item-price">5 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="سبانخ - باللبنة" data-price="7">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/a3d5a0766e6c8e2077f7fa37134115b0.jpg?width=1920" alt="سبانخ - باللبنة" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">سبانخ - باللبنة</h3><div class="item-price">7 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="سبانخ - بالبيض والجبن" data-price="7">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/a3d5a0766e6c8e2077f7fa37134115b0.jpg?width=1920" alt="سبانخ - بالبيض والجبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">سبانخ - بالبيض والجبن</h3><div class="item-price">7 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">الزعتر</h2>
+            <div class="item-card" data-name="زعتر - عادي" data-price="3">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/54ea88bacc844b3bc4bb6a2145c81ab7.jpg?width=1920" alt="زعتر - عادي" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">زعتر - عادي</h3><div class="item-price">3 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="زعتر - بالطماطم" data-price="4">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/54ea88bacc844b3bc4bb6a2145c81ab7.jpg?width=1920" alt="زعتر - بالطماطم" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">زعتر - بالطماطم</h3><div class="item-price">4 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="زعتر - بالجبن" data-price="5">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/54ea88bacc844b3bc4bb6a2145c81ab7.jpg?width=1920" alt="زعتر - بالجبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">زعتر - بالجبن</h3><div class="item-price">5 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="زعتر - مشكل" data-price="5">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/54ea88bacc844b3bc4bb6a2145c81ab7.jpg?width=1920" alt="زعتر - مشكل" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">زعتر - مشكل</h3><div class="item-price">5 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">جبن</h2>
+            <div class="item-card" data-name="مشكل جبن" data-price="7">
+                <img src="https://images.deliveryhero.io/image/global-menu-service/HS_SA/vendor/132936/PRODUCT/55576230/e64ee992-7169-4f6e-aebb-444d36f96e18.jpg?width=222" alt="مشكل جبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">مشكل جبن</h3><div class="item-price">7 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+<div class="item-card" data-name="جبن عكاوي" data-price="5">
+    <img src="https://images.deliveryhero.io/image/hungerstation/menuitem/image/28936913?width=1920" alt="جبن عكاوي" class="item-image">
+    <div class="item-details">
+        <div class="item-main-info">
+            <h3 class="item-name">جبن عكاوي</h3>
+            <div class="item-price">5 ريال</div>
+        </div>
+        <div class="qty-controls">
+            <button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button>
+            <input type="number" class="qty-input" value="0" readonly>
+            <button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button>
+        </div>
+    </div>
+</div>
+            <div class="item-card" data-name="جبن موزريلا" data-price="7">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menuitem/image/44527845?width=222" alt="جبن موزريلا" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">جبن موزريلا</h3><div class="item-price">7 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="فلافل جبن" data-price="7">
+                <img src="https://images.deliveryhero.io/image/global-menu-service/HS_SA/vendor/132936/PRODUCT/55576232/5476d1f8-e9ce-4e36-856d-02485deb9e3b.jpg?width=222" alt="فلافل جبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">فلافل جبن</h3><div class="item-price">7 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="جبن سائل كرافت" data-price="5">
+                <img src="https://images.deliveryhero.io/image/global-menu-service/HS_SA/vendor/132936/PRODUCT/55576233/6ee9d8e2-58a2-41ba-b2b3-0abf5c8c016a.jpg?width=222" alt="جبن سائل كرافت" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">جبن سائل كرافت</h3><div class="item-price">5 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="جبن - بالزيتون" data-price="6">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menuitem/image/28936913?width=1920" alt="جبن - بالزيتون" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">جبن - بالزيتون</h3><div class="item-price">6 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="جبن - بالطماطم" data-price="6">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menuitem/image/28936913?width=1920" alt="جبن - بالطماطم" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">جبن - بالطماطم</h3><div class="item-price">6 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="جبن - بالعسل" data-price="6">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menuitem/image/28936913?width=1920" alt="جبن - بالعسل" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">جبن - بالعسل</h3><div class="item-price">6 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="جبن - سبايسي" data-price="6">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menuitem/image/28936913?width=1920" alt="جبن - سبايسي" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">جبن - سبايسي</h3><div class="item-price">6 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="جبن - بالبيض" data-price="7">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menuitem/image/28936913?width=1920" alt="جبن - بالبيض" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">جبن - بالبيض</h3><div class="item-price">7 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">اللحم</h2>
+            <div class="item-card" data-name="لحم ولبنه و جبن" data-price="9">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/b69bb59eb7195529a86440a70952209e.jpg?width=222" alt="لحم ولبنه و جبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">لحم ولبنه و جبن</h3><div class="item-price">9 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="لحم بعجين - عادي" data-price="7">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/b69bb59eb7195529a86440a70952209e.jpg?width=1920" alt="لحم بعجين - عادي" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">لحم بعجين - عادي</h3><div class="item-price">7 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="لحم بعجين - بالجبن" data-price="8">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/b69bb59eb7195529a86440a70952209e.jpg?width=1920" alt="لحم بعجين - بالجبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">لحم بعجين - بالجبن</h3><div class="item-price">8 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">الدجاج</h2>
+            <div class="item-card" data-name="لبنه الدجاج و الجبن" data-price="9">
+                <img src="https://images.deliveryhero.io/image/global-menu-service/HS_SA/vendor/132936/PRODUCT/55576239/ccd2f25e-1a46-48e9-8cb4-b64adfd246c9.jpg?width=222" alt="لبنه الدجاج و الجبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">لبنه الدجاج و الجبن</h3><div class="item-price">9 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="دجاج بالعجين - عادي" data-price="7">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/b8e3242259b6d6610f2be229917e2ecd.jpg?width=1920" alt="دجاج بالعجين - عادي" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">دجاج بالعجين - عادي</h3><div class="item-price">7 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="دجاج بالعجين - بالجبن" data-price="8">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/b8e3242259b6d6610f2be229917e2ecd.jpg?width=1920" alt="دجاج بالعجين - بالجبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">دجاج بالعجين - بالجبن</h3><div class="item-price">8 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">ميني معجنات</h2>
+            <div class="item-card" data-name="بيتزا مشكل - صغير" data-price="13">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menus/menuitem/hsimg-7454756?width=1920" alt="بيتزا مشكل - صغير" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا مشكل - صغير</h3><div class="item-price">13 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا مشكل - وسط" data-price="19">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menus/menuitem/hsimg-7454756?width=1920" alt="بيتزا مشكل - وسط" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا مشكل - وسط</h3><div class="item-price">19 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="صحن معجنات مشكل - صغير" data-price="20">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/2315312c2ef44a2d35960dbd621ae2f7.jpg?width=1920" alt="صحن معجنات مشكل - صغير" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">صحن معجنات مشكل - صغير</h3><div class="item-price">20 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا مشكل - كبير" data-price="25">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menus/menuitem/hsimg-7454756?width=1920" alt="بيتزا مشكل - كبير" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا مشكل - كبير</h3><div class="item-price">25 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا مشكل - عائلي" data-price="31">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menus/menuitem/hsimg-7454756?width=1920" alt="بيتزا مشكل - عائلي" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا مشكل - عائلي</h3><div class="item-price">31 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="صحن معجنات مشكل - وسط" data-price="40">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/2315312c2ef44a2d35960dbd621ae2f7.jpg?width=1920" alt="صحن معجنات مشكل - وسط" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">صحن معجنات مشكل - وسط</h3><div class="item-price">40 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="صحن معجنات مشكل - كبير" data-price="65">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/2315312c2ef44a2d35960dbd621ae2f7.jpg?width=1920" alt="صحن معجنات مشكل - كبير" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">صحن معجنات مشكل - كبير</h3><div class="item-price">65 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">البيتزا</h2>
+            <div class="item-card" data-name="بيتزا فلافل - صغير" data-price="10">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menuitem/image/87356?width=1920" alt="بيتزا فلافل" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا فلافل - صغير</h3><div class="item-price">10 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا فلافل - وسط" data-price="16">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menuitem/image/87356?width=1920" alt="بيتزا فلافل" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا فلافل - وسط</h3><div class="item-price">16 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا فلافل - كبير" data-price="20">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menuitem/image/87356?width=1920" alt="بيتزا فلافل" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا فلافل - كبير</h3><div class="item-price">20 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا فلافل - عائلي" data-price="25">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menuitem/image/87356?width=1920" alt="بيتزا فلافل" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا فلافل - عائلي</h3><div class="item-price">25 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا جبن - صغير" data-price="11">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/80539d91fe7a8e84692025ea82aeced4.jpeg?width=1920" alt="بيتزا جبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا جبن - صغير</h3><div class="item-price">11 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا جبن - وسط" data-price="19">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/80539d91fe7a8e84692025ea82aeced4.jpeg?width=1920" alt="بيتزا جبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا جبن - وسط</h3><div class="item-price">19 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا جبن - كبير" data-price="25">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/80539d91fe7a8e84692025ea82aeced4.jpeg?width=1920" alt="بيتزا جبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا جبن - كبير</h3><div class="item-price">25 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا جبن - عائلي" data-price="31">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/80539d91fe7a8e84692025ea82aeced4.jpeg?width=1920" alt="بيتزا جبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا جبن - عائلي</h3><div class="item-price">31 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا خضار - صغير" data-price="11">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/9ae1031222effe6591fdaf9ff1c7e8ff.jpg?width=1920" alt="بيتزا خضار" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا خضار - صغير</h3><div class="item-price">11 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا خضار - وسط" data-price="19">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/9ae1031222effe6591fdaf9ff1c7e8ff.jpg?width=1920" alt="بيتزا خضار" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا خضار - وسط</h3><div class="item-price">19 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا خضار - كبير" data-price="25">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/9ae1031222effe6591fdaf9ff1c7e8ff.jpg?width=1920" alt="بيتزا خضار" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا خضار - كبير</h3><div class="item-price">25 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا خضار - عائلي" data-price="31">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/9ae1031222effe6591fdaf9ff1c7e8ff.jpg?width=1920" alt="بيتزا خضار" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا خضار - عائلي</h3><div class="item-price">31 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا هوت دوج - صغير" data-price="13">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/f6ad088759bc8a04a99252869e6eefe2.jfif?width=1920" alt="بيتزا هوت دوج" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا هوت دوج - صغير</h3><div class="item-price">13 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا هوت دوج - وسط" data-price="19">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/f6ad088759bc8a04a99252869e6eefe2.jfif?width=1920" alt="بيتزا هوت دوج" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا هوت دوج - وسط</h3><div class="item-price">19 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا هوت دوج - كبير" data-price="25">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/f6ad088759bc8a04a99252869e6eefe2.jfif?width=1920" alt="بيتزا هوت دوج" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا هوت دوج - كبير</h3><div class="item-price">25 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا هوت دوج - عائلي" data-price="31">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/f6ad088759bc8a04a99252869e6eefe2.jfif?width=1920" alt="بيتزا هوت دوج" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا هوت دوج - عائلي</h3><div class="item-price">31 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا ببروني - صغير" data-price="13">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menus/menuitem/hsimg-16918580?width=1920" alt="بيتزا ببروني" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا ببروني - صغير</h3><div class="item-price">13 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا ببروني - وسط" data-price="19">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menus/menuitem/hsimg-16918580?width=1920" alt="بيتزا ببروني" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا ببروني - وسط</h3><div class="item-price">19 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا ببروني - كبير" data-price="25">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menus/menuitem/hsimg-16918580?width=1920" alt="بيتزا ببروني" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا ببروني - كبير</h3><div class="item-price">25 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا ببروني - عائلي" data-price="31">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menus/menuitem/hsimg-16918580?width=1920" alt="بيتزا ببروني" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا ببروني - عائلي</h3><div class="item-price">31 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا باربيكيو - صغير" data-price="13">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/1809104e2d8e0a3eca18ed027bcf83b1.jpg?width=1920" alt="بيتزا باربيكيو" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا باربيكيو - صغير</h3><div class="item-price">13 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا باربيكيو - وسط" data-price="19">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/1809104e2d8e0a3eca18ed027bcf83b1.jpg?width=1920" alt="بيتزا باربيكيو" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا باربيكيو - وسط</h3><div class="item-price">19 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا باربيكيو - كبير" data-price="25">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/1809104e2d8e0a3eca18ed027bcf83b1.jpg?width=1920" alt="بيتزا باربيكيو" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا باربيكيو - كبير</h3><div class="item-price">25 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا باربيكيو - عائلي" data-price="31">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/1809104e2d8e0a3eca18ed027bcf83b1.jpg?width=1920" alt="بيتزا باربيكيو" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا باربيكيو - عائلي</h3><div class="item-price">31 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا دجاج - صغير" data-price="13">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/b6bced552dd996362417c5f1349f161e.jpg?width=1920" alt="بيتزا دجاج" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا دجاج - صغير</h3><div class="item-price">13 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا دجاج - وسط" data-price="19">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/b6bced552dd996362417c5f1349f161e.jpg?width=1920" alt="بيتزا دجاج" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا دجاج - وسط</h3><div class="item-price">19 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا دجاج - كبير" data-price="25">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/b6bced552dd996362417c5f1349f161e.jpg?width=1920" alt="بيتزا دجاج" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا دجاج - كبير</h3><div class="item-price">25 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا دجاج - عائلي" data-price="31">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/b6bced552dd996362417c5f1349f161e.jpg?width=1920" alt="بيتزا دجاج" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا دجاج - عائلي</h3><div class="item-price">31 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا لحم - صغير" data-price="13">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menus/menuitem/hsimg-20984626?width=1920" alt="بيتزا لحم" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا لحم - صغير</h3><div class="item-price">13 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا لحم - وسط" data-price="19">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menus/menuitem/hsimg-20984626?width=1920" alt="بيتزا لحم" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا لحم - وسط</h3><div class="item-price">19 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا لحم - كبير" data-price="25">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menus/menuitem/hsimg-20984626?width=1920" alt="بيتزا لحم" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا لحم - كبير</h3><div class="item-price">25 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا لحم - عائلي" data-price="31">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menus/menuitem/hsimg-20984626?width=1920" alt="بيتزا لحم" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا لحم - عائلي</h3><div class="item-price">31 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا رانش - صغير" data-price="13">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/2bcde6005f030a4d1206254c3238cb60.jpeg?width=1920" alt="بيتزا رانش" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا رانش - صغير</h3><div class="item-price">13 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا رانش - وسط" data-price="19">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/2bcde6005f030a4d1206254c3238cb60.jpeg?width=1920" alt="بيتزا رانش" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا رانش - وسط</h3><div class="item-price">19 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا رانش - كبير" data-price="25">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/2bcde6005f030a4d1206254c3238cb60.jpeg?width=1920" alt="بيتزا رانش" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا رانش - كبير</h3><div class="item-price">25 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا رانش - عائلي" data-price="31">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/2bcde6005f030a4d1206254c3238cb60.jpeg?width=1920" alt="بيتزا رانش" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا رانش - عائلي</h3><div class="item-price">31 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا اطراف جبن - صغير" data-price="15">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/55555f5b1047cbc4c4a3752f9d06d86b.jpeg?width=1920" alt="بيتزا اطراف جبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا اطراف جبن - صغير</h3><div class="item-price">15 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا اطراف جبن - وسط" data-price="21">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/55555f5b1047cbc4c4a3752f9d06d86b.jpeg?width=1920" alt="بيتزا اطراف جبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا اطراف جبن - وسط</h3><div class="item-price">21 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا اطراف جبن - كبير" data-price="27">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/55555f5b1047cbc4c4a3752f9d06d86b.jpeg?width=1920" alt="بيتزا اطراف جبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا اطراف جبن - كبير</h3><div class="item-price">27 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="بيتزا اطراف جبن - عائلي" data-price="33">
+                <img src="https://images.deliveryhero.io/image/hungerstation/product/image_url_ref/55555f5b1047cbc4c4a3752f9d06d86b.jpeg?width=1920" alt="بيتزا اطراف جبن" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">بيتزا اطراف جبن - عائلي</h3><div class="item-price">33 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">المشروبات</h2>
+            <div class="item-card" data-name="كوكاكولا" data-price="4">
+                <img src="https://www.coca-cola.com/content/dam/onexp/xf/ar/product-images/coca-cola-original-taste-can.png/width3840.png" alt="كوكاكولا" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name"> كوكاكولا </h3><div class="item-price">4 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="فانتا بطعم برتقال" data-price="4">
+                <img src="https://www.coca-cola.com/content/dam/onexp/sa/ar/brands/fanta/fanta-orange/fanta_orange_new_2.png/width3840.png" alt="فانتا بطعم برتقال" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">فانتا بطعم برتقال</h3><div class="item-price">4 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="سبرايت" data-price="4">
+                <img src="https://www.coca-cola.com/content/dam/onexp/sa/ar/brands/sprite/sprite_regular_v2.png/width3840.png" alt="سبرايت" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name"> سبرايت </h3><div class="item-price">4 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="فانتا بطعم الحمضيات" data-price="4">
+                <img src="https://www.coca-cola.com/content/dam/onexp/xf/ar/brands/fanta/imagesv2/ar_fanta_prod_fanta-citrus_750x750.jpg/width3840.jpg" alt="فانتا بطعم الحمضيات
+" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">فانتا بطعم الحمضيات
+</h3><div class="item-price">4 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+            <div class="item-card" data-name="ماء" data-price="1">
+                <img src="https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/8dbcd691b6a793e1615a111aece6fb31.jpg?width=222" alt="ماء" class="item-image">
+                <div class="item-details"><div class="item-main-info"><h3 class="item-name">ماء</h3><div class="item-price">1 ريال</div></div><div class="qty-controls"><button class="qty-btn btn-plus" onclick="updateQty(this, 1)">+</button><input type="number" class="qty-input" value="0" readonly><button class="qty-btn btn-minus" onclick="updateQty(this, -1)">-</button></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-bar">
+        <div class="total-box"><span class="total-label">السعر الإجمالي:</span><span class="total-amount"><span id="total-price">0</span> ريال</span></div>
+        <button class="send-btn" onclick="sendToWhatsApp()"> إرسال الطلب للاستلام 💬</button>
+    </div>
+
+    <script>
+        // ==========================================
+        // جدول الأسعار السهل - عدل الأسعار هنا فقط
+        // ==========================================
+        const menuPrices = {
+    "شكشوكة - عادي": 3,
+    "شكشوكة - بالجبن": 4,
+    "نوتيلا": 4,
+    "حلاوة - عادي": 3,
+    "حلاوة - بالجبن": 4,
+    "قشطة - عادي": 4,
+    "قشطة - بالعسل": 4,
+    "عش البلبل - صغير": 10,
+    "عش البلبل - وسط": 15,
+    "عش البلبل - كبير": 20,
+    "عش البلبل - عائلي": 25,
+    "لبنه مشكل": 7,
+    "لبنه جبن زيتون": 6,
+    "لبنه فلافل": 5,
+    "لبنة - عادي": 4,
+    "لبنة - بالعسل": 5,
+    "لبنة - بالزعتر": 5,
+    "لبنة - بالزيتون": 5,
+    "لبنة - بالجبن": 5,
+    "لبنة - بالبيض": 5,
+    "سبانخ - عادي": 2,
+    "سبانخ - بالجبن": 4,
+    "سبانخ - باللبنة": 5,
+    "سبانخ - بالبيض والجبن": 5,
+    "زعتر - عادي": 2,
+    "زعتر - بالطماطم": 3,
+    "زعتر - بالجبن": 5,
+    "زعتر - مشكل": 4,
+    "مشكل جبن": 6,
+    "جبن موزريلا": 6,
+    "فلافل جبن": 5,
+    "جبن سائل كرافت": 5,
+    "جبن - بالزيتون": 5,
+    "جبن - بالطماطم": 5,
+    "جبن - بالعسل": 5,
+    "جبن - سبايسي": 5,
+    "جبن - بالبيض": 5,
+    "لحم ولبنه و جبن": 7,
+    "لحم بعجين - عادي": 5,
+    "لحم بعجين - بالجبن": 6,
+    "لبنه الدجاج و الجبن": 7,
+    "دجاج بالعجين - عادي": 5,
+    "دجاج بالعجين - بالجبن": 6,
+    "بيتزا مشكل - صغير": 10,
+    "بيتزا مشكل - وسط": 15,
+    "بيتزا مشكل - كبير": 20,
+    "بيتزا مشكل - عائلي": 25,
+    "صحن معجنات مشكل - صغير": 15,
+    "صحن معجنات مشكل - وسط": 30,
+    "صحن معجنات مشكل - كبير": 50,
+    "بيتزا فلافل - صغير": 10,
+    "بيتزا فلافل - وسط": 15,
+    "بيتزا فلافل - كبير": 20,
+    "بيتزا فلافل - عائلي": 25,
+    "بيتزا جبن - صغير": 9,
+    "بيتزا جبن - وسط": 15,
+    "بيتزا جبن - كبير": 20,
+    "بيتزا جبن - عائلي": 25,
+    "بيتزا خضار - صغير": 9,
+    "بيتزا خضار - وسط": 15,
+    "بيتزا خضار - كبير": 20,
+    "بيتزا خضار - عائلي": 25,
+    "بيتزا هوت دوج - صغير": 10,
+    "بيتزا هوت دوج - وسط": 15,
+    "بيتزا هوت دوج - كبير": 20,
+    "بيتزا هوت دوج - عائلي": 25,
+    "بيتزا ببروني - صغير": 10,
+    "بيتزا ببروني - وسط": 15,
+    "بيتزا ببروني - كبير": 20,
+    "بيتزا ببروني - عائلي": 25,
+    "بيتزا باربيكيو - صغير": 12,
+    "بيتزا باربيكيو - وسط": 17,
+    "بيتزا باربيكيو - كبير": 22,
+    "بيتزا باربيكيو - عائلي": 27,
+    "بيتزا دجاج - صغير": 10,
+    "بيتزا دجاج - وسط": 15,
+    "بيتزا دجاج - كبير": 20,
+    "بيتزا دجاج - عائلي": 25,
+    "بيتزا لحم - صغير": 10,
+    "بيتزا لحم - وسط": 15,
+    "بيتزا لحم - كبير": 20,
+    "بيتزا لحم - عائلي": 25,
+    "بيتزا رانش - صغير": 12,
+    "بيتزا رانش - وسط": 17,
+    "بيتزا رانش - كبير": 22,
+    "بيتزا رانش - عائلي": 27,
+    "بيتزا اطراف جبن - صغير": 12,
+    "بيتزا اطراف جبن - وسط": 17,
+    "بيتزا اطراف جبن - كبير": 22,
+    "بيتزا اطراف جبن - عائلي": 27,
+    "بيبسي": 4,
+    "ميرندا برتقال": 4,
+    "سفن اب": 4,
+    "ميرندا حمضيات": 4,
+    "ماء": 1
+};
+
+        // تحديث التصميم تلقائياً من الجدول أعلاه
+        window.onload = function() {
+            document.querySelectorAll('.item-card').forEach(item => {
+                let name = item.getAttribute('data-name');
+                if(menuPrices[name] !== undefined) {
+                    item.setAttribute('data-price', menuPrices[name]);
+                    item.querySelector('.item-price').innerText = menuPrices[name] + " ريال";
+                }
+            });
+        };
+
+        // ==========================================
+
+        function updateQty(btn, change) {
+            let input = btn.parentElement.querySelector('.qty-input');
+            let currentQty = parseInt(input.value);
+            let newQty = currentQty + change;
+            if (newQty >= 0) { input.value = newQty; calculateTotal(); }
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            document.querySelectorAll('.item-card').forEach(item => {
+                total += (parseFloat(item.getAttribute('data-price')) * parseInt(item.querySelector('.qty-input').value));
+            });
+            document.getElementById('total-price').innerText = total;
+        }
+
+        function sendToWhatsApp() {
+            let phoneNumber = "966539800010"; 
+            let mapLink = "https://maps.app.goo.gl/zCmaAYSYCMTtD3cz8";
+            let orderText = "*طلب استلام من الفرع\n";
+            let hasItems = false; let total = 0;
+            
+            document.querySelectorAll('.item-card').forEach(item => {
+                let name = item.getAttribute('data-name');
+                let price = parseFloat(item.getAttribute('data-price'));
+                let qty = parseInt(item.querySelector('.qty-input').value);
+                if (qty > 0) { 
+                    hasItems = true; 
+                    let subTotal = price * qty; 
+                    orderText += ` ${qty}x ${name} (${subTotal} ريال)\n`; 
+                    total += subTotal; 
+                }
+            });
+            
+            if (!hasItems) { alert("الرجاء اختيار صنف واحد على الأقل."); return; }
+            orderText += `\n💵 *الإجمالي:* ${total} ريال\n\n📍 *موقع الفرع:* ${mapLink}\n\n_يرجى البدء بتجهيز الطلب.. شكراً لكم!_`;
+            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(orderText)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
