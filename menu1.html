@@ -311,6 +311,44 @@
             display: none;
         }
         .item-count-total.show { display: inline-block; }
+
+        /* ── STATUS BANNER ── */
+        .status-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            position: sticky;
+            top: 0;
+            z-index: 49;
+            text-align: center;
+        }
+        .status-banner.open {
+            background: #e8f5e9;
+            color: #1b5e20;
+            border-bottom: 2px solid #a5d6a7;
+        }
+        .status-banner.closed {
+            background: #fdecea;
+            color: #b71c1c;
+            border-bottom: 2px solid #ef9a9a;
+        }
+        .status-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            animation: pulse 1.8s infinite;
+        }
+        .open .status-dot  { background: #2e7d32; }
+        .closed .status-dot { background: #c62828; animation: none; }
+        @keyframes pulse {
+            0%,100% { opacity: 1; transform: scale(1); }
+            50%      { opacity: 0.5; transform: scale(1.3); }
+        }
+        .status-next { font-size: 12px; font-weight: 500; opacity: 0.8; }
     </style>
 </head>
 <body>
@@ -319,6 +357,14 @@
     <h1>🥐 فطائر الخالدية للمعجنات</h1>
     <p>ألذ معجنات • اطلب الآن وجاهز للاستلام</p>
     <div class="header-badge">🚗 استلام من الفرع بدون انتظار</div>
+</div>
+
+<!-- Status Banner -->
+<div class="status-banner" id="statusBanner">
+    <div class="status-dot"></div>
+    <span id="statusText">جاري التحقق...</span>
+    <span id="statusSep" style="opacity:0.4">•</span>
+    <span class="status-next" id="statusNext"></span>
 </div>
 
 <!-- Category Nav -->
@@ -647,6 +693,77 @@ function navTo(btn, id) {
   document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
 }
+
+// ── BRANCH HOURS (KSA = UTC+3) ──
+// Each day: array of [openMinutes, closeMinutes] pairs (midnight = 0, 1440 = next midnight)
+const HOURS = {
+  0: [[390, 690], [1050, 1440]], // Sunday:    6:30-11:30, 17:30-24:00
+  1: [[390, 690], [1050, 1440]], // Monday
+  2: [[390, 690], [1050, 1440]], // Tuesday
+  3: [[390, 690], [1050, 1440]], // Wednesday
+  4: [[390, 690], [1050, 1440]], // Thursday
+  5: [[1050, 1440]],             // Friday:    17:30-24:00 only
+  6: [[390, 690], [1050, 1440]]  // Saturday
+};
+
+const DAY_AR = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+
+function minsToStr(m) {
+  const h = Math.floor(m / 60) % 24;
+  const min = m % 60;
+  const ampm = h < 12 ? 'ص' : 'م';
+  const h12 = h % 12 || 12;
+  return `${h12}:${String(min).padStart(2,'0')} ${ampm}`;
+}
+
+function checkStatus() {
+  const now = new Date();
+  // KSA = UTC+3
+  const ksaOffset = 3 * 60;
+  const utcMin = now.getUTCHours() * 60 + now.getUTCMinutes();
+  const ksaMin = (utcMin + ksaOffset) % 1440;
+  const ksaDay = Math.floor((now.getUTCDay() * 1440 + utcMin + ksaOffset) / 1440) % 7;
+
+  const todaySlots = HOURS[ksaDay] || [];
+  const banner = document.getElementById('statusBanner');
+  const textEl = document.getElementById('statusText');
+  const nextEl = document.getElementById('statusNext');
+
+  // check if currently open
+  const isOpen = todaySlots.some(([o, c]) => ksaMin >= o && ksaMin < c);
+
+  if (isOpen) {
+    banner.className = 'status-banner open';
+    textEl.textContent = '✅ الفرع مفتوح الآن';
+    // find when current slot ends
+    const currentSlot = todaySlots.find(([o, c]) => ksaMin >= o && ksaMin < c);
+    nextEl.textContent = `يغلق الساعة ${minsToStr(currentSlot[1])}`;
+  } else {
+    banner.className = 'status-banner closed';
+    textEl.textContent = '🔴 الفرع مغلق الآن';
+    // find next opening: check remaining slots today, then tomorrow
+    let nextOpen = null;
+    for (const [o] of todaySlots) {
+      if (ksaMin < o) { nextOpen = { day: ksaDay, mins: o }; break; }
+    }
+    if (!nextOpen) {
+      // search next 7 days
+      for (let d = 1; d <= 7; d++) {
+        const nd = (ksaDay + d) % 7;
+        if (HOURS[nd] && HOURS[nd].length) {
+          nextOpen = { day: nd, mins: HOURS[nd][0][0] }; break;
+        }
+      }
+    }
+    if (nextOpen) {
+      const dayLabel = nextOpen.day === ksaDay ? 'اليوم' : DAY_AR[nextOpen.day];
+      nextEl.textContent = `يفتح ${dayLabel} ${minsToStr(nextOpen.mins)}`;
+    }
+  }
+}
+
+checkStatus();
+setInterval(checkStatus, 60000); // refresh every minute
 
 // ── INIT ──
 buildMenu();
